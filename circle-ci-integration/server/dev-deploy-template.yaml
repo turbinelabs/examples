@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: all-in-one-server-$TBN_STAGE-$TBN_VERSION
+  annotations:
+    deloyed_at: $DEPLOY_DATE
+spec:
+  replicas: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: all-in-one-server
+        tbn_cluster: all-in-one-server
+        app: all-in-one-server
+        git_sha: $GIT_SHA
+        git_branch: $GIT_BRANCH
+        stage: $TBN_STAGE
+        version: $TBN_VERSION
+    spec:
+      containers:
+      - image: gcr.io/$GCLOUD_PROJECT_ID/all-in-one-server:$TBN_VERSION
+        imagePullPolicy: Always
+        name: all-in-one-server
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP

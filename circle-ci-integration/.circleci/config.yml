@@ -1,0 +1,109 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:8.4.0
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - checkout
+      - run: cd server && npm install && npm test
+  push-dev-server:
+    docker:
+      - image: turbinelabs/gcloud-build:0.15.1
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: openrc boot
+      - run: docker build -t gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_BRANCH server
+      - run: docker tag gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_BRANCH gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:0.15.1
+      - run: gcloud docker -- push gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_BRANCH
+  push-prod-server:
+    docker:
+      - image: turbinelabs/gcloud-build:0.15.1
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: openrc boot
+      - run: docker build -t gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_TAG server
+      - run: docker tag gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_TAG gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:0.15.1
+      - run: gcloud docker -- push gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_TAG
+  deploy-dev-server:
+    docker:
+      - image: turbinelabs/gcloud-build:0.15.1
+    steps:
+      - checkout
+      - run: openrc boot
+      - run: ./deploy.sh dev server/dev-deploy-template.yaml
+  deploy-prod-server:
+    docker:
+      - image: turbinelabs/gcloud-build:0.15.1
+    steps:
+      - checkout
+      - run: openrc boot
+      - run: ./deploy.sh prod server/deploy-template.yaml
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore:
+                - /server-dev-.*/
+  dev_deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - /server-dev-.*/
+      - push-dev-server:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - /server-dev-.*/
+      - deploy-dev-server:
+          requires:
+            - push-dev-server
+          filters:
+            branches:
+              only:
+                - /server-dev-.*/
+  prod_deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only:
+                - /server-prod-.*/
+            branches:
+              ignore: /.*/
+      - push-prod-server:
+          requires:
+            - build
+          filters:
+            tags:
+              only:
+                - /server-prod-.*/
+      - deploy-prod-server-hold:
+          type: approval
+          requires:
+            - push-prod-server
+          filters:
+            tags:
+              only:
+                - /server-prod-.*/
+      - deploy-prod-server:
+          requires:
+            - deploy-prod-server-hold
+          filters:
+            tags:
+              only:
+                - /server-prod-.*/
