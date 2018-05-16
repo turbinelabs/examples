@@ -69,7 +69,7 @@ coreos:
         ExecStartPre=-/usr/bin/docker stop %n
         ExecStartPre=-/usr/bin/docker rm %n
         ExecStartPre=/usr/bin/docker pull turbinelabs/all-in-one-client:0.16.0-rc1
-        ExecStart=/usr/bin/docker run --name %n -e 'TBN_COLOR=1B9AE4' -p 8080:8080 turbinelabs/all-in-one-client:0.16.0-rc1
+        ExecStart=/usr/bin/docker run --name %n -p 8080:8080 turbinelabs/all-in-one-client:0.16.0-rc1
 
         [Install]
         WantedBy=multi-user.target

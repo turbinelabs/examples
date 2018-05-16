@@ -19,8 +19,8 @@ The examples repository contains examples referenced by
 
 ## Current Examples:
 
-- [Houston Integration with CircleCI and GKE](circle-ci-integration/README.md)
-- [CloudFormation + NLB + Envoy with Rotor](rotor-nlb/README.md)
+- [Houston Integration with CircleCI and GKE](circle-ci-integration)
+- [CloudFormation + NLB + Envoy with Rotor](rotor-nlb)
 
 ## Versioning
 

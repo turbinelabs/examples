@@ -25,8 +25,9 @@ At the end of the exercise you'll have:
 Creating the CloudFormation stacks will deploy two demonstration services. The
 client application presents a simple UI that shows blinking boxes. It calls the
 server application, which returns a hex color that the boxes should be colored.
-CloudFormation will also deploy [envoy-simple](https://github.com/turbinelabs
-/envoy-simple), configured as a target group for a network load balancer.
+CloudFormation will also deploy
+[envoy-simple](https://github.com/turbinelabs/envoy-simple), configured as a
+target group for a network load balancer.
 
 It will also deploy rotor to track the configuration of your
 environment. And provide a
@@ -71,8 +72,8 @@ Management Tools section.
 
 Click "Create Stack" in the top left section of the screen. In the "Select
 Template" screen choose "Upload a template to Amazon S3", click "choose file",
-and select the cloud-formation-envoy.yaml file in this repository. Then click
-"Next".
+and select the [cloud-formation-envoy.yaml](cloud-formation-envoy.yaml) file in
+this repository. Then click  "Next".
 
 In the "Specify Details" screen fill in appropriate variables. You can name your
 stack anything you like. You will need to select two subnets, each running in
@@ -91,15 +92,16 @@ in  which you wish to launch your stack, and click "CloudFormation" under the
 
 Click "Create Stack" in the top left section of the screen. In the "Select
 Template" screen choose "Upload a template to Amazon S3", click "choose file",
-and select the cloud-formation-client.yaml file in this repository. Then click
-"Next".
+and select the [cloud-formation-client.yaml](cloud-formation-client.yaml) file
+in this repository. Then click "Next".
 
 In the "Specify Details" screen fill in appropriate variables. You can name your
 stack anything you like, but the security group you choose must include the
-"InstanceSecurityGroup" created as part of the Envoy stack.
+"InstanceSecurityGroup" created as part of the Envoy stack. The subnets and VPC
+should match whatever you chose for the Envoy stack.
 
 Create another stack for the server application by repeating these steps using
-the cloud-formation-server.yaml file.
+the [cloud-formation-server.yaml](cloud-formation-server.yaml) file.
 
 ## Success
 
