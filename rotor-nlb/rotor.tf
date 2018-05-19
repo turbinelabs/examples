@@ -26,7 +26,7 @@ resource "aws_instance" "rotor" {
 
   tags {
     "rotor" = "",
-    "version" = "0.16.0-rc1"
+    "version" = "0.16.0"
   }
 
   instance_type = "${var.instance_type}"
@@ -65,8 +65,8 @@ coreos:
         Restart=always
         ExecStartPre=-/usr/bin/docker stop %n
         ExecStartPre=-/usr/bin/docker rm %n
-        ExecStartPre=/usr/bin/docker pull turbinelabs/rotor:0.16.0-rc1
-        ExecStart=/usr/bin/docker run --net host --name %n -e 'ROTOR_AWS_AWS_REGION=${var.aws_region}' -e 'ROTOR_AWS_AWS_ACCESS_KEY_ID=${var.AWS_ACCESS_KEY_ID}' -e 'ROTOR_AWS_AWS_SECRET_ACCESS_KEY=${var.AWS_SECRET_ACCESS_KEY}' -e 'ROTOR_AWS_VPC_ID=${aws_vpc.default.id}' -e 'ROTOR_CMD=aws' -p 50000:50000 turbinelabs/rotor:0.16.0-rc1
+        ExecStartPre=/usr/bin/docker pull turbinelabs/rotor:0.16.0
+        ExecStart=/usr/bin/docker run --net host --name %n -e 'ROTOR_AWS_AWS_REGION=${var.aws_region}' -e 'ROTOR_AWS_AWS_ACCESS_KEY_ID=${var.AWS_ACCESS_KEY_ID}' -e 'ROTOR_AWS_AWS_SECRET_ACCESS_KEY=${var.AWS_SECRET_ACCESS_KEY}' -e 'ROTOR_AWS_VPC_ID=${aws_vpc.default.id}' -e 'ROTOR_CMD=aws' -p 50000:50000 turbinelabs/rotor:0.16.0
 
         [Install]
         WantedBy=multi-user.target

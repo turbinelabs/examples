@@ -10,7 +10,7 @@ jobs:
       - run: cd server && npm install && npm test
   push-dev-server:
     docker:
-      - image: turbinelabs/gcloud-build:0.16.0-rc1
+      - image: turbinelabs/gcloud-build:0.16.0
     environment:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -18,11 +18,11 @@ jobs:
       - setup_remote_docker
       - run: openrc boot
       - run: docker build -t gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_BRANCH server
-      - run: docker tag gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_BRANCH gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:0.16.0-rc1
+      - run: docker tag gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_BRANCH gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:0.16.0
       - run: gcloud docker -- push gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_BRANCH
   push-prod-server:
     docker:
-      - image: turbinelabs/gcloud-build:0.16.0-rc1
+      - image: turbinelabs/gcloud-build:0.16.0
     environment:
       DEBIAN_FRONTEND: noninteractive
     steps:
@@ -30,18 +30,18 @@ jobs:
       - setup_remote_docker
       - run: openrc boot
       - run: docker build -t gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_TAG server
-      - run: docker tag gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_TAG gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:0.16.0-rc1
+      - run: docker tag gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_TAG gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:0.16.0
       - run: gcloud docker -- push gcr.io/${GCLOUD_PROJECT_ID}/all-in-one-server:$CIRCLE_TAG
   deploy-dev-server:
     docker:
-      - image: turbinelabs/gcloud-build:0.16.0-rc1
+      - image: turbinelabs/gcloud-build:0.16.0
     steps:
       - checkout
       - run: openrc boot
       - run: ./deploy.sh dev server/dev-deploy-template.yaml
   deploy-prod-server:
     docker:
-      - image: turbinelabs/gcloud-build:0.16.0-rc1
+      - image: turbinelabs/gcloud-build:0.16.0
     steps:
       - checkout
       - run: openrc boot
