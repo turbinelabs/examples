@@ -71,5 +71,9 @@ coreos:
         [Install]
         WantedBy=multi-user.target
   USERDATA
+
+  # You can replace the ExecStart line in the instance's user_data with the line below, and uncomment
+  # the re;quired entries in variables.tf to connect your Rotor instance to Houston.
+  # ExecStart=/usr/bin/docker run --net host --name %n -e 'ROTOR_API_ZONE_NAME=${var.ROTOR_API_ZONE_NAME}' -e 'ROTOR_API_KEY=${var.ROTOR_API_KEY}' -e 'ROTOR_AWS_AWS_REGION=${var.aws_region}' -e 'ROTOR_AWS_AWS_ACCESS_KEY_ID=${var.AWS_ACCESS_KEY_ID}' -e 'ROTOR_AWS_AWS_SECRET_ACCESS_KEY=${var.AWS_SECRET_ACCESS_KEY}' -e 'ROTOR_AWS_VPC_ID=${aws_vpc.default.id}' -e 'ROTOR_CMD=aws' -p 50000:50000 turbinelabs/rotor:0.16.0
 }
 

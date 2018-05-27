@@ -54,6 +54,20 @@ variable "AWS_SECRET_ACCESS_KEY" {
   description = "AWS access key to use"
 }
 
+/*
+# Uncomment the following variables, and replace the ExecStart entry in rotor.tf
+# To connect Rotor to Houston
+
+variable "ROTOR_API_KEY" {
+  description = "Houston API key to use for Rotor"
+}
+
+variable "ROTOR_API_ZONE_NAME" {
+  description = "Houston zone name to use for Rotor"
+  default = "default-zone"
+}
+*/
+
 variable "client_ami" {
   default = "ami-851820e5"
 }

@@ -116,6 +116,41 @@ requests you'll need to override the Host header, e.g.
 
 `curl -H 'Host: client' <your load balancer URL>`
 
+## Onward to Houston
+
+Configuring Rotor to work with Houston is as simple as providing an API key and
+Houston zone name. The
+[cloud-formation-envoy-houston.yaml](cloud-formation-houston-envoy.yaml) file
+can be used to update your Envoy stack. First, install
+[tbnctl](https://github.com/turbinelabs/tbnctl).
+[contact us](https://www.turbinelabs.io/contact) to get an account setup if you
+don't have one, then run `tbnctl login`.
+
+```console
+# replace this with the public name and port of your load balancer, e.g. example.com:80
+export TBN_DOMAIN=example.com:80
+tbnctl init-zone --routes=$TBN_DOMAIN/=client --routes=$TBN_DOMAIN/api=server --proxies=default-cluster=$TBN_DOMAIN default-zone
+```
+
+This creates a zone and proxy in Houston, and sets up routing to send `/` to the
+client cluster, and `/api` to the server cluster. Next generate an API key for
+Rotor by running `tbnctl access-tokens add "nlb-rotor key"`. Save the value of
+`signed_token` from the response.
+
+Now you can click on your Envoy CloudFormation stack, click Update Stack, select
+"upload a template to Amazon S3", and choose
+`cloud-formation-houston-envoy.yaml`. Click next, and provide the signed token
+you saved as the value of RotorApiKey, and enter "default-zone" for
+RotorZoneName. Click Next twice, then Update. AWS will replace Rotor with a new,
+Houston-enabled version.
+
+You should be able to visit your NLB domain name now and see our blinking lights
+demo. Logging into Houston and navigating to "default-zone" will show you
+customer-centric metrics for your application, as well as a log of configuration
+changes. Feel free to experiment with the full breadth of our traffic management
+controls, or try your own blue-green deploy by launching a new client
+autoscaling group that returns a different color!
+
 ## Cleanup
 
 You can remove all created resources by running choosing to delete the stack in
