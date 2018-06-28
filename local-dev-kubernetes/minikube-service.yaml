@@ -1,0 +1,61 @@
+# The code you're developing
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: pyservice
+  name: pyservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: pyservice
+  template:
+    metadata:
+      labels:
+        run: pyservice
+    spec:
+      containers:
+      - env:
+        - name: SERVICE_NAME
+          value: "1"
+        image: pyservice:1.0.0
+        imagePullPolicy: Never
+        name: pyservice
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+      - image: turbinelabs/envoy-simple:0.17.2
+        imagePullPolicy: Always
+        name: envoy-simple
+        ports:
+          - containerPort: 8888
+        env:
+        - name: ENVOY_XDS_HOST
+          value: "rotor.default.svc.cluster.local" # Change if using a different namespace
+        - name: ENVOY_XDS_PORT
+          value: "50000"
+        - name: ENVOY_NODE_ZONE
+          value: dev-local
+        - name: ENVOY_NODE_CLUSTER
+          value: dev-proxy
+      restartPolicy: Always
+---
+# The service, to access the deployment for the code you're developing
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: pyservice
+  name: pyservice
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - nodePort: 32730
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: pyservice
+  type: NodePort

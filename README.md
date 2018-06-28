@@ -21,6 +21,7 @@ The examples repository contains examples referenced by
 
 - [Houston Integration with CircleCI and GKE](circle-ci-integration)
 - [CloudFormation + NLB + Envoy with Rotor](rotor-nlb)
+- [Setting up a local development environment with Houston and Kubernetes](local-dev-kubernetes)
 
 ## Versioning
 

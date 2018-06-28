@@ -1,0 +1,65 @@
+# Envoy front proxy (relay point for all minikubes)
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: envoy-simple-node
+spec:
+  template:
+    metadata:
+      labels:
+        run: envoy-simple
+        external_cluster: envoy-simple
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - image: turbinelabs/envoy-simple:0.17.2
+        imagePullPolicy: Always
+        name: envoy-simple
+        ports:
+          - containerPort: 80
+            name: http
+        env:
+        - name: ENVOY_XDS_HOST
+          value: "rotor.default.svc.cluster.local" # Change if using a different namespace
+        - name: ENVOY_XDS_PORT
+          value: "50000"
+        - name: ENVOY_NODE_ZONE
+          value: testbed
+        - name: ENVOY_NODE_CLUSTER
+          value: testbed-proxy
+---
+
+# Rotor to collect the external IP of envoy-simple, to configure minikube Envoys
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rotor-external
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: rotor
+    spec:
+      serviceAccountName: rotor
+      containers:
+      - image: turbinelabs/rotor:0.17.2
+        imagePullPolicy: Always
+        name: rotor
+        ports:
+          - containerPort: 50000 # xDS server is exposed here
+        env:
+        - name: ROTOR_CONSOLE_LEVEL
+          value: debug
+        - name: ROTOR_CMD
+          value: kubernetes
+        - name: ROTOR_KUBERNETES_CLUSTER_LABEL
+          value: external_cluster
+        - name: ROTOR_API_ZONE_NAME
+          value: dev-local
+        - name: ROTOR_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: tbnsecret
+              key: apikey
