@@ -13,7 +13,7 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       containers:
-      - image: turbinelabs/envoy-simple:0.17.2
+      - image: turbinelabs/envoy-simple:0.18.0
         imagePullPolicy: Always
         name: envoy-simple
         ports:
@@ -44,7 +44,7 @@ spec:
     spec:
       serviceAccountName: rotor
       containers:
-      - image: turbinelabs/rotor:0.17.2
+      - image: turbinelabs/rotor:0.18.0
         imagePullPolicy: Always
         name: rotor
         ports:

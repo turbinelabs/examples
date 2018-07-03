@@ -485,7 +485,7 @@ Resources:
             - !GetAtt
               - Rotor
               - PrivateIp
-            - '" -p 80:80 -p 9999:9999 turbinelabs/envoy-simple:0.17.2'
+            - '" -p 80:80 -p 9999:9999 turbinelabs/envoy-simple:0.18.0'
             - |+
 
 
@@ -617,7 +617,7 @@ Resources:
                       Restart=always
                       ExecStartPre=-/usr/bin/docker stop %n
                       ExecStartPre=-/usr/bin/docker rm %n
-                      ExecStartPre=/usr/bin/docker pull turbinelabs/rotor:0.17.2
+                      ExecStartPre=/usr/bin/docker pull turbinelabs/rotor:0.18.0
             - '        ExecStart=/usr/bin/docker run --name %n -e "ROTOR_AWS_AWS_REGION='
             - !Ref 'AWS::Region'
             - '" -e "ROTOR_API_ZONE_NAME='
@@ -630,7 +630,7 @@ Resources:
             - !Ref AwsSecretAccessKey
             - '" -e "ROTOR_AWS_VPC_ID='
             - !Ref VpcId
-            - '" -e "ROTOR_CMD=aws" -p 50000:50000 turbinelabs/rotor:0.17.2'
+            - '" -e "ROTOR_CMD=aws" -p 50000:50000 turbinelabs/rotor:0.18.0'
             - |+
 
 
