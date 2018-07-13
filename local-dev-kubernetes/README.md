@@ -20,6 +20,11 @@ developers. Typically, most developers will only need the latest version of
 other services, so most organizations will not need more than one of these
 shared staging environments.
 
+Contrast this with [telepresence-houston](../telepresence-houston/README.md),
+which uses a different setup to route traffic a shared staging environment to
+your laptop, instead of routing traffic from your laptop to the shared staging
+environment. One could combine both to get bidirectional routing!
+
 # Architecture
 
 This uses minikube as a local development environment. Minikube will run our

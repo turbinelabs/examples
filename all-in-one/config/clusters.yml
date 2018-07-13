@@ -1,0 +1,30 @@
+- cluster: all-in-one-server
+  instances:
+    - host: 127.0.0.1
+      port: 8080
+      metadata:
+        - key: stage
+          value: prod
+        - key: version
+          value: blue
+    - host: 127.0.0.1
+      port: 8081
+      metadata:
+        - key: stage
+          value: prod
+        - key: version
+          value: green
+    - host: 127.0.0.1
+      port: 8082
+      metadata:
+        - key: stage
+          value: dev
+        - key: version
+          value: yellow
+- cluster: all-in-one-client
+  instances:
+    - host: 127.0.0.1
+      port: 8083
+      metadata:
+        - key: stage
+          value: prod

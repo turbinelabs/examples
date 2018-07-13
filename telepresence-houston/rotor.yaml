@@ -1,0 +1,89 @@
+# RBAC first
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: rotor
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rotor
+  namespace: default
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: rotor
+subjects:
+- kind: ServiceAccount
+  name: rotor
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: rotor
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: rotor
+  name: rotor
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: rotor
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: rotor
+    spec:
+      containers:
+      - env:
+        - name: ROTOR_CMD
+          value: kubernetes
+        - name: ROTOR_API_ZONE_NAME
+          value: local-dev
+        - name: ROTOR_KUBERNETES_NAMESPACE
+          value: default
+        - name: ROTOR_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: apikey
+              name: tbnsecret
+        image: turbinelabs/rotor:0.18.0
+        imagePullPolicy: Always
+        name: rotor
+        ports:
+        - containerPort: 50000
+          protocol: TCP
+      serviceAccount: rotor
+      serviceAccountName: rotor
+---
+# Expose Rotor as a service that Envoy will read from
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: rotor
+  name: rotor
+  namespace: default
+spec:
+  ports:
+  - port: 50000
+    protocol: TCP
+    targetPort: 50000
+  selector:
+    run: rotor
+  type: ClusterIP

@@ -1,0 +1,34 @@
+# Use turbinelabs/envoy-simple, an Envoy container that expects a fully dynamic
+# configuration from environment variables.
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: envoy
+  name: envoy
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      run: envoy
+  template:
+    metadata:
+      labels:
+        run: envoy
+    spec:
+      containers:
+      - env:
+        - name: ENVOY_XDS_HOST
+          value: rotor.default.svc.cluster.local
+        - name: ENVOY_XDS_PORT
+          value: "50000"
+        - name: ENVOY_NODE_ZONE
+          value: local-dev
+        - name: ENVOY_NODE_CLUSTER
+          value: local-dev-proxy
+        image: turbinelabs/envoy-simple:0.18.0
+        imagePullPolicy: Always
+        name: envoy
+        ports:
+        - containerPort: 80
+          protocol: TCP

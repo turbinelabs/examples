@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: all-in-one-server
+    stage: prod
+    tbn_cluster: all-in-one-server
+    version: master
+  name: all-in-one-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: all-in-one-server
+      stage: prod
+      tbn_cluster: all-in-one-server
+      version: master
+  template:
+    metadata:
+      labels:
+        run: all-in-one-server
+        stage: prod
+        tbn_cluster: all-in-one-server
+        version: master
+    spec:
+      containers:
+      - env:
+        - name: TBN_COLOR
+          value: 1B9AE4
+        - name: TBN_NAME
+          value: master
+        image: turbinelabs/all-in-one-server:0.18.0
+        imagePullPolicy: IfNotPresent
+        name: all-in-one-server
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+      restartPolicy: Always
