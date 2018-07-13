@@ -1,6 +1,6 @@
 #@NAME=all-in-one-client
 #@OSS_ARTIFACT=true
-FROM turbinelabs/envtemplate:0.18.0
+FROM turbinelabs/envtemplate:0.18.1
 FROM node:8.4.0
 COPY --from=0 /usr/local/bin/envtemplate /usr/local/bin/envtemplate
 EXPOSE 8080

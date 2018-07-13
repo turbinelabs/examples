@@ -18,11 +18,11 @@ const (
 	maxRPS     = 100
 	minRPS     = 1
 	defaultRPS = 20
-
-	// TbnPublicVersion is the current version of all Turbine Labs open-source
-	// software and artifacts.
-	TbnPublicVersion = "0.18.0"
 )
+
+// TbnPublicVersion is the current version of all Turbine Labs open-source
+// software and artifacts.
+const TbnPublicVersion = "0.18.1"
 
 type driver struct {
 	errorRates map[string]float64
