@@ -1,5 +1,5 @@
 #@NAME=all-in-one-client
-FROM turbinelabs/envtemplate:0.18.1
+FROM turbinelabs/envtemplate:0.18.2
 
 FROM node:8.4.0
 

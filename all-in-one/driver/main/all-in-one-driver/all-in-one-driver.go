@@ -22,7 +22,7 @@ const (
 
 // TbnPublicVersion is the current version of all Turbine Labs open-source
 // software and artifacts.
-const TbnPublicVersion = "0.18.1"
+const TbnPublicVersion = "0.18.2"
 
 type driver struct {
 	errorRates map[string]float64

@@ -23,7 +23,7 @@ resource "aws_autoscaling_group" "all-in-one-client" {
   }
   tag {
     key = "tbn:cluster:client:8080:version"
-    value = "0.18.1"
+    value = "0.18.2"
     propagate_at_launch = true
   }
   tag {
@@ -68,8 +68,8 @@ coreos:
         Restart=always
         ExecStartPre=-/usr/bin/docker stop %n
         ExecStartPre=-/usr/bin/docker rm %n
-        ExecStartPre=/usr/bin/docker pull turbinelabs/all-in-one-client:0.18.1
-        ExecStart=/usr/bin/docker run --name %n -p 8080:8080 turbinelabs/all-in-one-client:0.18.1
+        ExecStartPre=/usr/bin/docker pull turbinelabs/all-in-one-client:0.18.2
+        ExecStart=/usr/bin/docker run --name %n -p 8080:8080 turbinelabs/all-in-one-client:0.18.2
 
         [Install]
         WantedBy=multi-user.target
@@ -85,7 +85,7 @@ resource "aws_autoscaling_group" "all-in-one-server" {
   }
   tag {
     key = "tbn:cluster:server:8080:version"
-    value = "0.18.1"
+    value = "0.18.2"
     propagate_at_launch = true
   }
   tag {
@@ -128,8 +128,8 @@ coreos:
         Restart=always
         ExecStartPre=-/usr/bin/docker stop %n
         ExecStartPre=-/usr/bin/docker rm %n
-        ExecStartPre=/usr/bin/docker pull turbinelabs/all-in-one-server:0.18.1
-        ExecStart=/usr/bin/docker run --name %n -e 'TBN_COLOR=1B9AE4' -p 8080:8080 turbinelabs/all-in-one-server:0.18.1
+        ExecStartPre=/usr/bin/docker pull turbinelabs/all-in-one-server:0.18.2
+        ExecStart=/usr/bin/docker run --name %n -e 'TBN_COLOR=1B9AE4' -p 8080:8080 turbinelabs/all-in-one-server:0.18.2
 
         [Install]
         WantedBy=multi-user.target

@@ -26,7 +26,7 @@ spec:
           value: local-dev
         - name: ENVOY_NODE_CLUSTER
           value: local-dev-proxy
-        image: turbinelabs/envoy-simple:0.18.1
+        image: turbinelabs/envoy-simple:0.18.2
         imagePullPolicy: Always
         name: envoy
         ports:

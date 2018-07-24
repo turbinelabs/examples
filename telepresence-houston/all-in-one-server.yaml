@@ -30,7 +30,7 @@ spec:
           value: 1B9AE4
         - name: TBN_NAME
           value: master
-        image: turbinelabs/all-in-one-server:0.18.1
+        image: turbinelabs/all-in-one-server:0.18.2
         imagePullPolicy: IfNotPresent
         name: all-in-one-server
         ports:
