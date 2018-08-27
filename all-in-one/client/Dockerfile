@@ -1,7 +1,7 @@
 #@NAME=all-in-one-client
 FROM turbinelabs/envtemplate:0.18.2
 
-FROM node:8.4.0
+FROM node:10
 
 COPY --from=0 /usr/local/bin/envtemplate /usr/local/bin/envtemplate
 

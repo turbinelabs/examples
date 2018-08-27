@@ -26,7 +26,7 @@ environment to your laptop. One could combine both to get bidirectional routing!
 
 To deploy all this, you'll need:
 
- - Go 1.10.1 or later (previous versions may work, but we don't build or test
+ - Go 1.10.3 or later (previous versions may work, but we don't build or test
    against them)
  - A Houston access token ([Sign up here](https://www.turbinelabs.io/contact))
  - A Kubernetes environment

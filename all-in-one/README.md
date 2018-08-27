@@ -13,7 +13,7 @@ manner. This container runs:
 
 In order to use this guide, you’ll need:
 
- - Go 1.10.1 or later (previous versions may work, but we don't build or test
+ - Go 1.10.3 or later (previous versions may work, but we don't build or test
    against them)
  - Docker
  - A [Houston account](https://turbinelabs.io/contact)
