@@ -1,5 +1,5 @@
 #@NAME=all-in-one-driver
-FROM phusion/baseimage:0.10.0
+FROM phusion/baseimage:0.10.2
 
 # upgrade/install deps
 RUN apt-get update
