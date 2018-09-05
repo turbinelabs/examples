@@ -9,4 +9,8 @@ rewrite_vars ALL_IN_ONE_ ROTOR_
 require_vars ROTOR_API_KEY \
              ROTOR_API_ZONE_NAME
 
-rotor file --format=yaml /opt/rotor/clusters.yml
+export ROTOR_CMD="file"
+export ROTOR_FILE_FORMAT="yaml"
+export ROTOR_FILE_FILENAME=/opt/rotor/clusters.yml
+
+/usr/local/bin/rotor.sh

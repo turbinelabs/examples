@@ -4,6 +4,7 @@ NAME=all-in-one-test-$RANDOM
 IMAGE=${ALL_IN_ONE_IMAGE:-all-in-one}
 VERSION=${ALL_IN_ONE_VERSION:-latest}
 MAX_ATTEMPTS=10
+COLOR="FDBC00"
 
 export TERM="${TERM:-dumb}"
 if [ "${TERM}" = "dumb" -a "${CIRCLECI}" = "true" ]; then
@@ -55,8 +56,8 @@ function retry {
     if [[ $CODE == 0 ]]; then
       # if there's an expression, test for non-empty result
       if [[ -n $EXPR ]]; then
+        report_indent "  " "$RESULT"
         if [[ $RESULT =~ $EXPR ]]; then
-          report_indent "  " "$RESULT"
           return
         fi
       # otherwise, any result is fine as long as the code is good
@@ -86,12 +87,14 @@ retry \
 
 report "starting container $NAME"
 
+# set ROTOR_LOCAL_CLUSTER to override to yellow cluster
 docker run \
   --name=$NAME \
   --rm \
-  -e "TBNPROXY_API_KEY=$TBN_API_KEY" \
-  -e "TBNPROXY_API_ZONE_NAME=build-test-zone" \
-  -e "TBNPROXY_PROXY_NAME=build-test-proxy" \
+  -e "ALL_IN_ONE_API_KEY=$TBN_API_KEY" \
+  -e "ALL_IN_ONE_API_ZONE_NAME=build-test-zone" \
+  -e "ALL_IN_ONE_PROXY_NAME=build-test-proxy" \
+  -e "ROTOR_LOCAL_CLUSTERS=all-in-one-server:8082" \
   turbinelabs/$IMAGE:$VERSION&
 
 # cleanup docker container on exit
@@ -113,7 +116,7 @@ retry \
 
 retry \
   "testing server" \
-  "docker exec $NAME curl -s -I -H 'Host: all-in-one-demo' -X GET -m 1 http://localhost/api" \
-  "200 OK"
+  "docker exec $NAME curl -s -H 'Host: all-in-one-demo' -X GET -m 1 http://localhost/api" \
+  "$COLOR"
 
 report "success!"
