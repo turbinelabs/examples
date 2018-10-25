@@ -62,7 +62,7 @@ spec:
             secretKeyRef:
               key: apikey
               name: tbnsecret
-        image: turbinelabs/rotor:0.18.2
+        image: turbinelabs/rotor:0.19.0
         imagePullPolicy: Always
         name: rotor
         ports:

@@ -30,7 +30,7 @@ spec:
           value: FDA100
         - name: TBN_NAME
           value: my-local-copy
-        image: turbinelabs/all-in-one-server:0.18.2
+        image: turbinelabs/all-in-one-server:0.19.0
         imagePullPolicy: IfNotPresent
         name: all-in-one-server-dev
         ports:

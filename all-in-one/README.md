@@ -43,7 +43,7 @@ docker run -p 80:80 \
     -e "ALL_IN_ONE_API_KEY=$TBN_API_KEY" \
     -e "ALL_IN_ONE_API_ZONE_NAME=all-in-one" \
     -e "ALL_IN_ONE_PROXY_NAME=all-in-one-proxy" \
-    turbinelabs/all-in-one:0.18.2
+    turbinelabs/all-in-one:0.19.0
 ```
 
 The container is now serving the domain `all-in-one` on localhost. Add the
@@ -126,5 +126,5 @@ docker run -p 80:80 \
     -e "ALL_IN_ONE_API_KEY=$TBN_API_KEY" \
     -e "ALL_IN_ONE_API_ZONE_NAME=all-in-one-demo-1" \
     -e "ALL_IN_ONE_PROXY_NAME=all-in-one-demo-1-proxy-1" \
-    turbinelabs/all-in-one:0.18.2
+    turbinelabs/all-in-one:0.19.0
 ```

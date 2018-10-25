@@ -364,7 +364,7 @@ Resources:
           Value: 'client'
           PropagateAtLaunch: true
         - Key: 'tbn:cluster:client:8080:version'
-          Value: '0.18.2'
+          Value: '0.19.0'
           PropagateAtLaunch: true
         - Key: 'tbn:cluster:client:8080:stage'
           Value: 'prod'
@@ -466,7 +466,7 @@ Resources:
                       Restart=always
                       ExecStartPre=-/usr/bin/docker stop %n
                       ExecStartPre=-/usr/bin/docker rm %n
-                      ExecStartPre=/usr/bin/docker pull turbinelabs/all-in-one-client:0.18.2
-                      ExecStart=/usr/bin/docker run --name %n -p 8080:8080 turbinelabs/all-in-one-client:0.18.2
+                      ExecStartPre=/usr/bin/docker pull turbinelabs/all-in-one-client:0.19.0
+                      ExecStart=/usr/bin/docker run --name %n -p 8080:8080 turbinelabs/all-in-one-client:0.19.0
                       [Install]
                       WantedBy=multi-user.target

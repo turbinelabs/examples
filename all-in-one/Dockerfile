@@ -1,9 +1,9 @@
 #@NAME=all-in-one
-FROM turbinelabs/envoy-simple:0.18.2
+FROM turbinelabs/envoy-simple:0.19.0
 
-FROM turbinelabs/envtemplate:0.18.2
+FROM turbinelabs/envtemplate:0.19.0
 
-FROM turbinelabs/rotor:0.18.2
+FROM turbinelabs/rotor:0.19.0
 
 FROM phusion/baseimage:0.10.2
 

@@ -79,7 +79,7 @@ coreos:
         ExecStartPre=-/usr/bin/docker stop %n
         ExecStartPre=-/usr/bin/docker rm %n
         ExecStartPre=/usr/bin/docker pull turbinelabs/envoy-simple:latest
-        ExecStart=/usr/bin/docker run --name %n -e 'ENVOY_XDS_HOST=${var.rotor_ip}' -p 80:80 -p 9999:9999 turbinelabs/envoy-simple:0.18.2
+        ExecStart=/usr/bin/docker run --name %n -e 'ENVOY_XDS_HOST=${var.rotor_ip}' -p 80:80 -p 9999:9999 turbinelabs/envoy-simple:0.19.0
 
         [Install]
         WantedBy=multi-user.target
